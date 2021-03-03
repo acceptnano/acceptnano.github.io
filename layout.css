@@ -17,6 +17,21 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 10;
+    background-color: rgb(65, 92, 121, 0);
+}
+
+.background {
+    background-color:rgb(41,58,76);
+}
+
+.fade {
+    height: 2rem;
+    background: linear-gradient(
+        to top,
+        rgb(41,58,76, 1),
+        rgb(41,58,76, 0)
+    )
 }
 
 .center {

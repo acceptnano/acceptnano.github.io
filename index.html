@@ -27,7 +27,7 @@
         <div class="bottom">
             <div class="fade"></div>
             <div class="background">
-                <p class="info">Payments are forwarded<br>to the address entered here</p>
+                <p class="address_help">Payments are forwarded to<br>the address entered here</p>
                 <textarea class="address" 
                 id="address_textarea" 
                 placeholder="Enter Address"
@@ -42,20 +42,22 @@
     </div>
     <div id="main_view">
         <div class="top">
-            <h1>Accept Nano</h1>
+            <div class="address_info">
+                <div class="info">Payments are forwarded to</div>
+                <div class="info address_short">nano_1anrzcuwe64rwxzcco8dk<br>hpyxpimpc3ppca4mrjtwnqposrs</div>
+            </div>
         </div>
         <div class="center">
         </div>
         <div class="bottom">
-            <textarea class="address" 
-            id="address_textarea" 
-            placeholder="Enter Address"
-            maxlength="65"
-            oninput="addressChanged();"></textarea>
-            <br>
-            <button class="button" onclick="pasteAddress()">Paste Address</button>
-            <br>
-            <button class="button" id="address_continue" onclick="addressContinue()" disabled>Continue</button>
+            <div class="fade"></div>
+            <div class="background">
+                <br>
+                <input class="currency" readonly placeholder="NANO" onclick="changeCurrency(this);">
+                <input class="amount" type="text" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount">
+                <br>
+                <button class="button" id="address_continue" onclick="addressContinue()" disabled>Request Payment</button>
+            </div>
         </div>
     </div>
 </body>

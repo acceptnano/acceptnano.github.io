@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="Page used to Accept Nano" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accept Nano</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="main.js"></script>
+</head>
+
+<body onload="main();">
+    <div id="deposit_address_view">
+        <div class="top">
+            <h1>Accept Nano</h1>
+        </div>
+        <div class="center">
+        </div>
+        <div class="bottom">
+            <textarea class="address" 
+            id="address_textarea" 
+            placeholder="Enter Address"
+            maxlength="65"
+            oninput="addressChanged();"></textarea>
+            <br>
+            <button class="button" onclick="pasteAddress()">Paste Address</button>
+            <br>
+            <button class="button" id="address_continue" onclick="addressContinue()" disabled>Continue</button>
+        </div>
+    </div>
+    <div id="main_view">
+        <div class="top">
+            <h1>Accept Nano</h1>
+        </div>
+        <div class="center">
+        </div>
+        <div class="bottom">
+            <textarea class="address" 
+            id="address_textarea" 
+            placeholder="Enter Address"
+            maxlength="65"
+            oninput="addressChanged();"></textarea>
+            <br>
+            <button class="button" onclick="pasteAddress()">Paste Address</button>
+            <br>
+            <button class="button" id="address_continue" onclick="addressContinue()" disabled>Continue</button>
+        </div>
+    </div>
+</body>
+
+</html>

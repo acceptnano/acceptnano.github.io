@@ -25,10 +25,11 @@ h2 {
     text-align: center;
     padding: 1rem;
     background-color: rgb(30,44,61);
+    color: rgb(172, 172, 172);
 }
 
 .address_short {
-    color: rgb(255, 167, 66);
+    color: rgb(255, 195, 66);
 }
 
 .address {
@@ -46,7 +47,7 @@ h2 {
     text-align: center;
     font-size: 1.4rem;
     background-color: rgb(30,44,61);
-    color: rgb(255, 167, 66);
+    color: rgb(255, 195, 66);
     margin-bottom: 0.7rem;
     resize: none;
 }

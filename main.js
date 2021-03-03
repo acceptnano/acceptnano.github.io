@@ -9,7 +9,8 @@ function main() {
     if (isValid) {
 
     } else {
-        $("#deposit_address_view").show()
+        $("#deposit_address_view").show()   
+        $("#main_view").hide()   
     }
 }
 

@@ -7,10 +7,12 @@ function main() {
     var isValid = pattern.test(address)
     console.log(isValid)
     if (isValid) {
-
+        $("#deposit_address_view").hide()   
+        $("#main_view").show()   
     } else {
         $("#deposit_address_view").show()   
-        $("#main_view").hide()   
+        $("#main_view").hide()
+        addressChanged()
     }
 }
 

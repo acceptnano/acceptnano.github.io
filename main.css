@@ -14,6 +14,7 @@
 
 h1 {
     margin-top: 1rem;
+    font-size: 3rem;
 }
 
 .button:disabled,
@@ -26,14 +27,16 @@ h1 {
     width: 90%;
     max-width: 30rem;
     border-radius: 2rem;
-    height: 7rem;
+    height: 9rem;
     border: 0px;
     outline: 0px;
-    padding: 2rem;
+    padding: 2.5rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     background-color: rgb(30,44,61);
     color: rgb(255, 167, 66);
     margin-bottom: 1rem;

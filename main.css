@@ -109,3 +109,8 @@ h2 {
 .currency::placeholder {
     color: rgb(165,206,255);
 }
+
+#qrcode {
+    text-align: center;
+    margin: auto;
+}

@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="layout.css">
     <link rel="stylesheet" href="main.css">
     <script
-    src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
     crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="main.js"></script>
 </head>
 
@@ -32,7 +33,7 @@
                 id="address_textarea" 
                 placeholder="Enter Address"
                 maxlength="65"
-                oninput="addressChanged();">nano_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs</textarea>
+                oninput="addressChanged();">nano_1nh7mhjdnukooyjqj9uneiuc3qc6qrzt3qy8ih3ugdrsny5z9dkfatb1rwrt</textarea>
                 <br>
                 <button class="button" onclick="pasteAddress()">Paste Address</button>
                 <br>
@@ -45,7 +46,7 @@
             <h1>Accept Nano</h1>
             <div class="address_info">
                 <div class="info">Payments are forwarded to</div>
-                <div class="info address_short">nano_1anrzcuwe64rwxzcco8dk<br>hpyxpimpc3ppca4mrjtwnqposrs</div>
+                <div id="address_short" class="info address_short"></div>
             </div>
         </div>
         <div class="center">
@@ -55,10 +56,15 @@
             <div class="background">
                 <br>
                 <input class="currency" readonly placeholder="NANO" onclick="changeCurrency(this);">
-                <input class="amount" type="number" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount">
+                <input class="amount" type="number" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount" oninput="amountChanged();">
                 <br>
-                <button class="button" id="address_continue" onclick="addressContinue()" disabled>Request Payment</button>
+                <button class="button" id="request_payment" onclick="requestPayment()" disabled>Request Payment</button>
             </div>
+        </div>
+    </div>
+    <div id="await_payment">
+        <div class="center">
+            <div id="qrcode"></div>
         </div>
     </div>
 </body>

@@ -128,5 +128,18 @@ h2 {
     border-radius: 2rem;
     display: inline-block;
     box-sizing: border-box;
-    margin-top: 1rem;
+}
+
+.scan_top {
+    background-color: black;
+    display: inline-block;
+    padding-top: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
+.scan_bottom {
+    
 }

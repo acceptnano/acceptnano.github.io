@@ -122,8 +122,11 @@ h2 {
 
 .qrcode_border {
     background-color: black;
-    padding: 2rem;
+    width: 26rem;
+    padding: 1.5rem;
     line-height: 0;
     border-radius: 2rem;
     display: inline-block;
+    box-sizing: border-box;
+    margin-top: 1rem;
 }

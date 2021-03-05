@@ -19,7 +19,8 @@ h2 {
 }
 
 .address_info {
-    margin: 1rem;
+    margin: auto;
+    width: 24rem;
     font-size: 1.4rem;
     border-radius: 1rem;
     text-align: center;
@@ -33,8 +34,7 @@ h2 {
 }
 
 .address {
-    width: 90%;
-    max-width: 30rem;
+    width: 26rem;
     border-radius: 2rem;
     height: 10rem;
     border: 0px;
@@ -58,8 +58,7 @@ h2 {
 
 .button {
     height: 4rem;
-    width: 90%;
-    max-width: 30rem;
+    width: 26rem;
     border-radius: 2rem;
     border: 0px;
     outline: 0px;
@@ -78,8 +77,7 @@ h2 {
 
 .amount {
     height: 4rem;
-    width: 90%;
-    max-width: 30rem;
+    width: 26rem;
     border-radius: 2rem;
     border: 0px;
     outline: 0px;
@@ -110,7 +108,27 @@ h2 {
     color: rgb(165,206,255);
 }
 
+#qrcode > img {
+    margin: auto;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 1rem;
+    border: 1rem solid white;
+}
+
+
 #qrcode {
-    text-align: center;
+    margin: auto;
+    background-color: black;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    display: inline-block;
+}
+
+.qrcode_border {
+    padding: 1rem;
+    border-radius: 2rem;
+    background-color: rgba(165, 205, 255, 0);
+    width: 24rem;
     margin: auto;
 }

@@ -109,26 +109,21 @@ h2 {
 }
 
 #qrcode > img {
-    margin: auto;
     width: 20rem;
     height: 20rem;
-    border-radius: 1rem;
-    border: 1rem solid white;
 }
 
-
 #qrcode {
-    margin: auto;
-    background-color: black;
+    background-color: white;
     padding: 1rem;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     display: inline-block;
 }
 
 .qrcode_border {
-    padding: 1rem;
+    background-color: black;
+    padding: 2rem;
+    line-height: 0;
     border-radius: 2rem;
-    background-color: rgba(165, 205, 255, 0);
-    width: 24rem;
-    margin: auto;
+    display: inline-block;
 }

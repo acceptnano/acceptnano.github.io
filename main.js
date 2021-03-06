@@ -15,11 +15,10 @@ function main() {
         $("#main_view").show()   
         $("#await_payment").hide()
 
-        length = Math.round(depositAddress.length/2)-1
         console.log(depositAddress)
-        split = depositAddress.match(new RegExp('.{1,' + length + '}', 'g'));
+        split = depositAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
         console.log(split)
-        $("#address_short").get(0).innerHTML = split[0] + "<br>" + split[1] + split[2]
+        $("#address_short").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
     } else {
         $("#deposit_address_view").show()   
         $("#main_view").hide()

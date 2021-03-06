@@ -121,7 +121,7 @@ h2 {
 }
 
 .qrcode_border {
-    background-color: black;
+    background-color: rgb(30,44,61);
     width: 26rem;
     padding: 1.5rem;
     line-height: 0;
@@ -131,7 +131,7 @@ h2 {
 }
 
 .scan_top {
-    background-color: black;
+    background-color: rgb(30,44,61);
     display: inline-block;
     padding-top: 0.5rem;
     padding-left: 2rem;
@@ -141,5 +141,11 @@ h2 {
 }
 
 .scan_bottom {
-    
+    background-color: rgb(30,44,61);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
 }

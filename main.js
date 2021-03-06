@@ -77,6 +77,10 @@ function requestPayment() {
 function awaitPayment(id, account) {
     $("#main_view").hide()
     $("#await_payment").show()
+    history.pushState({}, "Accept Nano")
+    window.onpopstate = function(e) {
+        window.location.href = "?address=" + depositAddress
+    };
 
     text = "nano:" + depositAddress + "?amount=" + toRaw(requestAmount);
     console.log(text)

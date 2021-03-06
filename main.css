@@ -30,7 +30,7 @@ h2 {
 }
 
 .address_short {
-    color: rgb(255, 195, 66);
+    color: rgb(165,206,255);
 }
 
 .address {
@@ -47,7 +47,8 @@ h2 {
     text-align: center;
     font-size: 1.4rem;
     background-color: rgb(30,44,61);
-    color: rgb(255, 195, 66);
+    /* color: rgb(255, 195, 66); */
+    color: rgb(165,206,255);
     margin-bottom: 0.7rem;
     resize: none;
 }
@@ -63,7 +64,7 @@ h2 {
     border: 0px;
     outline: 0px;
     cursor: pointer;
-    font-size: 1.8rem;
+    font-size: 2.1rem;
     background-color: rgb(165,206,255);
     color: rgb(30,44,61);
     margin-bottom: 1rem;
@@ -123,29 +124,37 @@ h2 {
 .qrcode_border {
     background-color: rgb(30,44,61);
     width: 26rem;
-    padding: 1.5rem;
+    padding: 1rem;
+    padding-top: 2rem;
     line-height: 0;
-    border-radius: 2rem;
     display: inline-block;
     box-sizing: border-box;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
 }
 
 .scan_top {
     background-color: rgb(30,44,61);
     display: inline-block;
-    padding-top: 0.5rem;
+    padding-top: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
+    width: 22rem;
 }
 
 .scan_bottom {
     background-color: rgb(30,44,61);
     display: inline-block;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
+    width: 22rem;
+}
+
+#amount_info {
+    color: rgb(165,206,255);
 }

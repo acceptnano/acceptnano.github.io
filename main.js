@@ -117,3 +117,7 @@ function toRaw(amount) {
     raw = raw + (new Array(zeros)).join('0');
     return raw
 }
+
+function back() {
+    history.back();
+}

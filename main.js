@@ -123,9 +123,13 @@ function toRaw(amount) {
 }
 
 function back() {
-    history.back();
+    window.location.href = "?address=" + depositAddress
 }
 
 function editAddress() {
     window.location.href = "?edit&address=" + depositAddress
+}
+
+if (performance.getEntriesByType("navigation")[0].type == 2) {
+    location.reload();
 }

@@ -91,6 +91,12 @@ h2 {
     text-align: center;
 }
 
+@supports (-webkit-touch-callout: none) {
+    .amount {
+        width: 24rem;
+    }
+}
+
 .currency {
     height: 4rem;
     width: 4rem;

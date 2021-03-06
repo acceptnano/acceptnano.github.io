@@ -7,7 +7,9 @@ function main() {
     var urlParams = new URLSearchParams(window.location.search);
     var address = urlParams.get('address');
     var isValid = pattern.test(address)
-    if (isValid) {
+    var isEdit = urlParams.has('edit')
+    console.log("isEdit " + isEdit)
+    if (isValid && !isEdit) {
         depositAddress = address
         $("#deposit_address_view").hide()   
         $("#main_view").show()   
@@ -22,6 +24,9 @@ function main() {
         $("#deposit_address_view").show()   
         $("#main_view").hide()
         $("#await_payment").hide()
+        if (isEdit && isValid) {
+            $("#address_textarea").get(0).value = address
+        }
         addressChanged()
     }
 }
@@ -120,4 +125,8 @@ function toRaw(amount) {
 
 function back() {
     history.back();
+}
+
+function editAddress() {
+    window.location.href = "?edit&address=" + depositAddress
 }

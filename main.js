@@ -8,16 +8,13 @@ function main() {
     var address = urlParams.get('address');
     var isValid = pattern.test(address)
     var isEdit = urlParams.has('edit')
-    console.log("isEdit " + isEdit)
     if (isValid && !isEdit) {
         depositAddress = address
         $("#deposit_address_view").hide()   
         $("#main_view").show()   
         $("#await_payment").hide()
 
-        console.log(depositAddress)
         split = depositAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
-        console.log(split)
         $("#address_short").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
     } else {
         $("#deposit_address_view").show()   
@@ -87,7 +84,6 @@ function awaitPayment(id, account) {
     };
 
     text = "nano:" + depositAddress + "?amount=" + toRaw(requestAmount);
-    console.log(text)
     var qrcode = new QRCode("qrcode", {
         text: text,
         colorDark : "#000000",
@@ -123,13 +119,9 @@ function toRaw(amount) {
 }
 
 function back() {
-    window.location.href = "?address=" + depositAddress
+    window.location = document.referrer;
 }
 
 function editAddress() {
     window.location.href = "?edit&address=" + depositAddress
-}
-
-if (performance.getEntriesByType("navigation")[0].type == 2) {
-    location.reload();
 }

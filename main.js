@@ -118,8 +118,8 @@ function toRaw(amount) {
     return raw
 }
 
-function back() {
-    window.location = document.referrer;
+function reload() {
+    window.location.reload();
 }
 
 function editAddress() {

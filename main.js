@@ -13,13 +13,14 @@ function main() {
         $("#deposit_address_view").hide()   
         $("#main_view").show()   
         $("#await_payment").hide()
-
+        $("#payment_received").hide()
         split = depositAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
         $("#address_short").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
     } else {
         $("#deposit_address_view").show()   
         $("#main_view").hide()
         $("#await_payment").hide()
+        $("#payment_received").hide()
         if (isEdit && isValid) {
             $("#address_textarea").get(0).value = address
         }
@@ -90,6 +91,9 @@ function awaitPayment(id, account) {
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.L
     });
+
+    $("#amount_info").get(0).innerHTML = requestAmount.toString() + " NANO"
+    openNanoWebSocket()
 }
 
 function changeCurrency() {
@@ -124,4 +128,40 @@ function reload() {
 
 function editAddress() {
     window.location.href = "?edit&address=" + depositAddress
+}
+
+function openNanoWebSocket() {
+    var ws = new WebSocket("wss://socket.nanos.cc", []);
+    ws.onopen = function (event) {
+        console.log("on open!");
+        const confirmation_subscription = {
+            "action": "subscribe", 
+            "topic": "confirmation",
+            "options": {
+                "accounts": [depositAddress]
+            }
+        }
+        ws.send(JSON.stringify(confirmation_subscription));
+    };
+
+    ws.onmessage = function (event) {
+        console.log(event.data);
+        obj = JSON.parse(event.data);
+        if (obj.message != undefined) {
+            fromAddress = obj.message.account
+            rawReceived = obj.message.amount
+            if (rawReceived == toRaw(requestAmount)) {
+                success(fromAddress, requestAmount);
+                ws.close();
+            }
+        }
+    }
+}
+
+function success(fromAddress, requestAmount) {
+    $("#success_nano").get(0).innerHTML = requestAmount + " NANO";
+    split = fromAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
+    $("#success_address").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
+    $("#await_payment").hide()
+    $("#payment_received").show()
 }

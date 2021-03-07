@@ -45,8 +45,8 @@
         <div class="top">
             <h1>Accept Nano</h1>
             <div class="address_info" onclick="editAddress();">
-                <div class="info">Payments are forwarded to</div>
-                <div id="address_short" class="info address_short"></div>
+                <div>Payments are forwarded to</div>
+                <div id="address_short" class="address_short"></div>
             </div>
         </div>
         <div class="center">
@@ -67,16 +67,39 @@
             <h1>Accept Nano</h1>
         </div>
         <div class="center">
-            <div class="qrcode_border">
-                <div id="qrcode"></div>
-            </div>
-            <div class="scan_bottom"> 
-                <h2>Scan this to pay</h2>
-                <h2 id="amount_info">0.0023 NANO</h2>
+            <div id="request_border">
+                <div class="qrcode_border">
+                    <div id="qrcode"></div>
+                </div>
+                <div class="scan_bottom"> 
+                    <h2>Scan this to pay</h2>
+                    <h2 id="amount_info">0.0023 NANO</h2>
+                </div>
             </div>
         </div>
         <div class="bottom">
             <button class="button" onclick="reload();">Back</button>
+        </div>
+    </div>
+    <div id="payment_received">
+        <div class="top">
+            <h1 class="success_title">Success</h1>
+        </div>
+        <div class="center">
+            <div id="request_border">
+                <div class="success_area success_title">
+                    <div id="success_nano" class="info">2 NANO</div>
+                    <h2>PAYED BY</h2>
+                    <div id="success_address" class="info">
+                        nano_1nh7mhjdnukooyjqj9une<br>
+                        iuc3qc6qrzt3qy8ih3ugdrsny5<br>
+                        z9dkfatb1rwrt
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <button class="button success_back" onclick="reload();">Back</button>
         </div>
     </div>
 </body>

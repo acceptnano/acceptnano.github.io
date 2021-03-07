@@ -163,6 +163,47 @@ h2 {
     width: 22rem;
 }
 
+.scan_bottom > h2 {
+    font-size: 1.7rem;
+}
+
 #amount_info {
     color: rgb(165,206,255);
+}
+
+#success {
+    z-index: -10;
+    margin: 0;
+    padding: 0;
+    -moz-transform: translateY(11rem);
+    -webkit-transform: translateY(11rem);
+    transform: translateY(11rem);
+    font-size: 23rem;
+    position: relative;
+    color: rgb(103,254,166);
+}
+
+.success_front {
+    color: rgb(103,254,166);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.success_title {
+    color: rgb(103,254,166);
+}
+
+.success_back {
+    background-color: rgb(103,254,166);
+}
+
+.info {  
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: rgb(30,44,61);
+    font-size: 1.4rem;
+    border-radius: 2rem;
+    padding: 1rem;
 }

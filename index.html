@@ -21,7 +21,7 @@
 <body onload="main();">
     <div id="deposit_address_view">
         <div class="top">
-            <h1>Accept Nano</h1>
+            <h1>Choose Address</h1>
         </div>
         <div class="center">
         </div>
@@ -55,7 +55,7 @@
             <div class="fade"></div>
             <div class="background">
                 <br>
-                <input class="currency" readonly placeholder="NANO" onclick="changeCurrency(this);">
+                <input id="amount_currency" class="currency" readonly placeholder="NANO" onclick="changeCurrency(this);">
                 <input class="amount" type="number" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount" oninput="amountChanged();">
                 <br>
                 <button class="button" id="request_payment" onclick="requestPayment()" disabled>Request Payment</button>
@@ -88,8 +88,9 @@
         <div class="center">
             <div id="request_border">
                 <div class="success_area success_title">
+                    <h2>RECEIVED</h2>
                     <div id="success_nano" class="info">2 NANO</div>
-                    <h2>PAID BY</h2>
+                    <h2>FROM</h2>
                     <div id="success_address" class="info">
                         nano_1nh7mhjdnukooyjqj9une<br>
                         iuc3qc6qrzt3qy8ih3ugdrsny5<br>
@@ -100,6 +101,17 @@
         </div>
         <div class="bottom">
             <button class="button success_back" onclick="reload();">Back</button>
+        </div>
+    </div>
+    <div id="change_currency">
+        <div class="top">
+            <h1>Choose Currency</h1>
+        </div>
+        <div id="currency_list">
+            <div class="buffer"></div>
+        </div>
+        <div class="bottom">
+            <button class="button" onclick="setCurrency();">Continue</button>
         </div>
     </div>
 </body>

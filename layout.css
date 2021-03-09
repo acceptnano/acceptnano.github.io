@@ -14,15 +14,22 @@ body {
 
 .top {
     margin: 0;
+    z-index: 20;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 30rem;
+    background-color: rgb(41,58,76);
 }
 
 .bottom {
-    position: absolute;
+    position: fixed;
+    padding-top: 1rem;
     right: 0;
     bottom: 0;
     left: 0;
     z-index: 10;
-    background-color: rgb(65, 92, 121, 0);
+    background-color: rgb(41,58,76);
 }
 
 .background {

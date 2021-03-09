@@ -168,8 +168,12 @@ h2 {
     font-size: 1.7rem;
 }
 
-#amount_info {
+.amount_info {
     color: rgb(165,206,255);
+}
+
+#nano_amount_info {
+    color: rgb(165, 165, 165);
 }
 
 #success {

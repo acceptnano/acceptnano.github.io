@@ -153,18 +153,23 @@ function addressChanged() {
 
 function requestPayment() {
     $("#request_payment").get(0).disabled = true;
-    awaitPayment("23213", "2323")
+    awaitPayment()
 }
 
-function awaitPayment(id, account) {
+function awaitPayment() {
     $("#main_view").hide()
     $("#await_payment").show()
     history.pushState({}, "Accept Nano")
     window.onpopstate = function(e) {
-        window.location.href = "?address=" + depositAddress
+        window.location.href = "?currency=" + fiatCurrency + "&address=" + depositAddress
     };
 
-    text = "nano:" + depositAddress + "?amount=" + toRaw(requestAmount);
+    usdRequestAmount = requestAmount / fiatToUsd;
+    nanoRequestAmount = usdRequestAmount / usdToNano;
+    nanoRequestAmount = Math.round((nanoRequestAmount + Number.EPSILON) * 1000000.0) / 1000000.0
+
+    text = "nano:" + depositAddress + "?amount=" + toRaw(nanoRequestAmount);
+    console.log(text)
     var qrcode = new QRCode("qrcode", {
         text: text,
         colorDark : "#000000",
@@ -172,8 +177,9 @@ function awaitPayment(id, account) {
         correctLevel : QRCode.CorrectLevel.L
     });
 
-    $("#amount_info").get(0).innerHTML = requestAmount.toString() + " NANO"
-    openNanoWebSocket()
+    $("#nano_amount_info").get(0).innerHTML = nanoRequestAmount.toString() + " NANO"
+    $("#fiat_amount_info").get(0).innerHTML = "~ " + requestAmount.toString() + " " + fiatCurrency;
+    openNanoWebSocket(nanoRequestAmount, requestAmount)
 }
 
 function changeCurrency() {
@@ -204,7 +210,7 @@ function toRaw(amount) {
         raw = split[0] + split[1]
     }
     raw = raw + (new Array(zeros)).join('0');
-    return raw
+    return raw.replace(/^0+/, '')
 }
 
 function reload() {
@@ -215,7 +221,7 @@ function editAddress() {
     window.location.href = "?edit&address=" + depositAddress
 }
 
-function openNanoWebSocket() {
+function openNanoWebSocket(nanoRequestAmount, requestAmount) {
     var ws = new WebSocket("wss://socket.nanos.cc", []);
     ws.onopen = function (event) {
         console.log("on open!");
@@ -235,16 +241,17 @@ function openNanoWebSocket() {
         if (obj.message != undefined) {
             fromAddress = obj.message.account
             rawReceived = obj.message.amount
-            if (rawReceived == toRaw(requestAmount)) {
-                success(fromAddress, requestAmount);
+            if (rawReceived == toRaw(nanoRequestAmount)) {
+                success(fromAddress, nanoRequestAmount, requestAmount);
                 ws.close();
             }
         }
     }
 }
 
-function success(fromAddress, requestAmount) {
-    $("#success_nano").get(0).innerHTML = requestAmount + " NANO";
+function success(fromAddress, nanoRequestAmount) {
+    $("#success_nano").get(0).innerHTML = 
+        nanoRequestAmount + " NANO<br>~ " + requestAmount + " " + fiatCurrency;
     split = fromAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
     $("#success_address").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
     $("#await_payment").hide()

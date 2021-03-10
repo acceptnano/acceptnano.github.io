@@ -49,6 +49,8 @@ function main() {
     $("#await_payment").hide()
     $("#payment_received").hide()
     $("#change_currency").hide()
+    $("#currency_bottom").hide()
+
     if (isSetCurrency) {  
         $("#change_currency").show()
         initCurrencies();
@@ -110,6 +112,7 @@ function initCurrencies() {
             currencyOnClick(parentDiv, this);
         };
         parentDiv.appendChild(entryDiv);
+        parentDiv.appendChild(document.createElement("BR"))
     }
     buffer = document.createElement("DIV");
     buffer.classList.add("buffer");
@@ -124,6 +127,7 @@ function currencyOnClick(parentDiv, entryDiv) {
     }
     entryDiv.style.border = "0.2rem solid rgb(165,206,255)";
     selectedCurrency = entryDiv.name;
+    $("#currency_bottom").show();
 }
 
 function addressContinue() {

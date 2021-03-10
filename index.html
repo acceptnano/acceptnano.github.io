@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta name="description" content="Page used to Accept Nano" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accept Nano</title>
@@ -21,7 +20,7 @@
 <body onload="main();">
     <div id="deposit_address_view">
         <div class="top">
-            <h1>Choose Address</h1>
+            <h1>Deposit Address</h1>
         </div>
         <div class="center">
         </div>
@@ -106,13 +105,19 @@
     </div>
     <div id="change_currency">
         <div class="top">
-            <h1>Choose Currency</h1>
+            <div class="background">
+                <h1>Choose Currency</h1>
+            </div>
+            <div class="top_down_fade"></div>
         </div>
         <div id="currency_list">
             <div class="buffer"></div>
         </div>
-        <div class="bottom">
-            <button class="button" onclick="setCurrency();">Continue</button>
+        <div id="currency_bottom" class="bottom">
+            <div class="bottom_up_fade"></div>
+            <div class="background">
+                <button class="button top_padding" onclick="setCurrency();">Continue</button>
+            </div>
         </div>
     </div>
 </body>

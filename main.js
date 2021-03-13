@@ -222,7 +222,7 @@ function reload() {
 }
 
 function editAddress() {
-    window.location.href = "?edit&address=" + depositAddress
+    window.location.href = "?edit&currency=" + fiatCurrency + "&address=" + depositAddress
 }
 
 function openNanoWebSocket(nanoRequestAmount, requestAmount) {

@@ -20,8 +20,8 @@ var depositAddress = ""
 var requestAmount = 0.0
 var fiatCurrency = ""
 var selectedCurrency = ""
-var fiatToUsd = -1.0
-var usdToNano = -1.0
+var usdToFiat = -1.0
+var nanoToUsd = -1.0
 
 function main() {
     $("#deposit_address_view").hide()
@@ -56,10 +56,7 @@ function main() {
         initCurrencies();
     } else if (isValid && !isEdit) { 
         $("#main_view").show()
-        split = depositAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
-        $("#address_short").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
-        $("#amount_currency").get(0).placeholder = fiatCurrency
-        updateCurrencyRates();
+        initMainView()
     } else {
         $("#deposit_address_view").show()
         if (isEdit && isValid) {
@@ -69,14 +66,24 @@ function main() {
     }
 }
 
+function initMainView() {
+    split = depositAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
+    prefix = depositAddress.substring(0,11)
+    suffix = depositAddress.slice(depositAddress.length - 6)
+    $("#address_short").get(0).innerHTML = prefix + " . . . " + suffix
+    $("#amount_currency").get(0).placeholder = fiatCurrency
+    updateCurrencyRates();
+    fetchPaymentHistory();
+}
+
 function updateCurrencyRates() {
     $.ajax({
         type: 'get',
         url: 'https://api.coingecko.com/api/v3/simple/price?ids=NANO&vs_currencies=USD',
         traditional: true,
         success: function(data){
-            usdToNano = data.nano.usd
-            console.log("nano usd: " + usdToNano)
+            nanoToUsd = data.nano.usd
+            console.log("nano usd: " + nanoToUsd)
         },
         error: function(){
             console.error("Failed to fetch NANO_USD");
@@ -91,13 +98,74 @@ function updateCurrencyRates() {
             if (!data.success) {
                 console.error("Failed to fetch USD_" + fiatCurrency);
             }
-            fiatToUsd = data.rates[fiatCurrency]
-            console.log("fiat usd: " + fiatToUsd)
+            usdToFiat = data.rates[fiatCurrency]
+            console.log("fiat usd: " + usdToFiat)
         },
         error: function(){
             console.error("Failed to fetch USD_" + fiatCurrency);
         },
     });
+}
+
+function fetchPaymentHistory() {
+    $.ajax({
+        type: 'get',
+        url: "https://proxy.nanos.cc/proxy/?action=account_history&count=20&account=" + depositAddress,
+        traditional: true,
+        success: function(data){
+            console.log(data);
+            showPaymentHistory(data);
+        },
+        error: function(){
+            console.error("Failed to fetch payment history");
+        },
+    });
+}
+
+function showPaymentHistory(transactions) {
+    txs = transactions.history
+    for (i = 0; i < txs.length; i++) {
+        tx = txs[i]
+        if (tx.type == "receive") {
+            appendPaymentDiv(tx);
+        }
+    }
+}
+
+function appendPaymentDiv(tx) {
+    var fromAccount = tx.account;
+    var fromAccountPrefix = fromAccount.substring(0,11)
+    ts = new Date(parseInt(tx.local_timestamp) * 1000);
+    var secondsAgo = (new Date().getTime() - ts.getTime()) / 1000.0;
+    var minutesAgo = secondsAgo / 60.0;
+    var hoursAgo = minutesAgo / 60.0;
+    var daysAgo = hoursAgo / 24.0;
+    var timeString = Math.round(secondsAgo) + "s ago";
+    if (minutesAgo >= 1) timeString = Math.round(minutesAgo) + "m ago";
+    if (hoursAgo >= 1) timeString = Math.round(hoursAgo) + "h ago";
+    if (daysAgo >= 1) timeString = ts.toISOString().split('T')[0];
+
+    var rawAmount = parseFloat(tx.amount);
+    var nanoAmount = rawAmount / 1000000000000000000000000000000.0;
+    nanoAmount = Math.round((nanoAmount + Number.EPSILON) * 1000.0) / 1000.0
+    var fiatAmount = nanoAmount * nanoToUsd * usdToFiat;
+    fiatAmount = Math.round((fiatAmount + Number.EPSILON) * 100.0) / 100.0
+
+    var parent = $("#main_center").get(0)
+    var paymentDiv = document.createElement("DIV");
+    paymentDiv.classList.add("payment");
+    var leftDiv = document.createElement("DIV");
+    leftDiv.classList.add("left");
+    var rightDiv = document.createElement("DIV");
+    rightDiv.classList.add("right");
+    var innerLeft = "Received <span class='highlight'>" + timeString + "</span><br>"
+    innerLeft += "From <span class='highlight'>" + fromAccountPrefix + "...</span>"
+    leftDiv.innerHTML = innerLeft;
+    var innerRight = nanoAmount + " NANO<br><span class='highlight'>~ " + fiatAmount + " " + fiatCurrency + "</span>"
+    rightDiv.innerHTML = innerRight;
+    paymentDiv.appendChild(leftDiv);
+    paymentDiv.appendChild(rightDiv);
+    parent.appendChild(paymentDiv);
 }
 
 function initCurrencies() {
@@ -168,8 +236,8 @@ function awaitPayment() {
         window.location.href = "?currency=" + fiatCurrency + "&address=" + depositAddress
     };
 
-    usdRequestAmount = requestAmount / fiatToUsd;
-    nanoRequestAmount = usdRequestAmount / usdToNano;
+    usdRequestAmount = requestAmount / usdToFiat;
+    nanoRequestAmount = usdRequestAmount / nanoToUsd;
     nanoRequestAmount = Math.round((nanoRequestAmount + Number.EPSILON) * 1000000.0) / 1000000.0
 
     text = "nano:" + depositAddress + "?amount=" + toRaw(nanoRequestAmount);

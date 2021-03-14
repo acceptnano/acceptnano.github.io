@@ -42,18 +42,30 @@
     </div>
     <div id="main_view">
         <div class="top">
-            <h1>Accept Nano</h1>
-            <div class="address_info" onclick="editAddress();">
-                <div>Payments are forwarded to</div>
-                <div id="address_short" class="address_short"></div>
+            <div class="background" style="padding-bottom: 0.5rem;">
+                <h1>Accept Nano</h1>
+                <div class="address_info" onclick="editAddress();">
+                    <div>Payments are forwarded to</div>
+                    <div id="address_short" class="highlight"></div>
+                </div>
             </div>
+            <div class="top_down_fade"></div>
         </div>
-        <div class="center">
+        <div class="center_top" id="main_center">
+            <!-- <div class="payment">
+                <div class="left">
+                    Received <span class='highlight'>1 hour ago</span><br>
+                    From <span class="highlight">nano_1nh7mh...</span>
+                </div>
+                <div class="right">
+                    2.24232 NANO<br>
+                    <span class="highlight">~ 1.523245 DKK</span>
+                </div>
+            </div>                 -->
         </div>
         <div class="bottom">
-            <div class="fade"></div>
-            <div class="background">
-                <br>
+            <div class="bottom_up_fade"></div>
+            <div class="background" style="padding-top: 0.5rem;">
                 <input id="amount_currency" class="currency" readonly placeholder="NANO" onclick="changeCurrency(this);">
                 <input class="amount" type="number" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount" oninput="amountChanged();">
                 <br>

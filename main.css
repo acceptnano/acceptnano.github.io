@@ -25,7 +25,7 @@ h2 {
 .address_info {
     margin: auto;
     width: 24rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     border-radius: 1rem;
     text-align: center;
     padding: 1rem;
@@ -35,8 +35,32 @@ h2 {
     cursor: pointer;
 }
 
-.address_short {
+.payment {
+    float: left;
+    margin: auto;
+    width: 24rem;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: rgb(30,44,61);
+    color: rgb(172, 172, 172);
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.highlight {
     color: rgb(165,206,255);
+}
+
+.left {
+    float: left; 
+    text-align: left;
+}
+
+.right {
+    float: right; 
+    text-align: right;
 }
 
 .address {
@@ -229,3 +253,4 @@ h2 {
     color: rgb(165,206,255);
     -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
 }
+

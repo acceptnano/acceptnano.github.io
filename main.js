@@ -22,6 +22,8 @@ var fiatCurrency = ""
 var selectedCurrency = ""
 var usdToFiat = -1.0
 var nanoToUsd = -1.0
+var paymentHistory = null;
+var paymentHistoryShown = false;
 
 function main() {
     $("#deposit_address_view").hide()
@@ -84,6 +86,7 @@ function updateCurrencyRates() {
         success: function(data){
             nanoToUsd = data.nano.usd
             console.log("nano usd: " + nanoToUsd)
+            showPaymentHistory();
         },
         error: function(){
             console.error("Failed to fetch NANO_USD");
@@ -100,6 +103,7 @@ function updateCurrencyRates() {
             }
             usdToFiat = data.rates[fiatCurrency]
             console.log("fiat usd: " + usdToFiat)
+            showPaymentHistory();
         },
         error: function(){
             console.error("Failed to fetch USD_" + fiatCurrency);
@@ -114,7 +118,8 @@ function fetchPaymentHistory() {
         traditional: true,
         success: function(data){
             console.log(data);
-            showPaymentHistory(data);
+            paymentHistory = data;
+            showPaymentHistory();
         },
         error: function(){
             console.error("Failed to fetch payment history");
@@ -122,8 +127,12 @@ function fetchPaymentHistory() {
     });
 }
 
-function showPaymentHistory(transactions) {
-    txs = transactions.history
+function showPaymentHistory() {
+    if (paymentHistory == null || paymentHistoryShown) return;
+    if (usdToFiat == -1.0 || nanoToUsd == -1.0) return;
+    paymentHistoryShown = true;
+
+    txs = paymentHistory.history
     for (i = 0; i < txs.length; i++) {
         tx = txs[i]
         if (tx.type == "receive") {

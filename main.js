@@ -6,7 +6,7 @@ var currencySymbols = [
     "GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD",
     "IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP",
     "LKR","LRD","LSL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MRU","MUR","MVR","MWK","MXN",
-    "MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR",
+    "MYR","MZN","NAD","NANO","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR",
     "RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SRD","SSP","STD","STN",
     "SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TWD","TZS","UAH","UGX","USD","UYU","UZS",
     "VES","VND","VUV","WST","XAF","XAG","XAU","XCD","XDR","XOF","XPD","XPF","XPT","YER","ZAR","ZMW","ZWL"
@@ -79,6 +79,12 @@ function initMainView() {
 }
 
 function updateCurrencyRates() {
+    if (fiatCurrency == "NANO") {
+        nanoToUsd = 1;
+        usdToFiat = 1;
+        return;
+    }
+
     $.ajax({
         type: 'get',
         url: 'https://api.coingecko.com/api/v3/simple/price?ids=NANO&vs_currencies=USD',
@@ -156,9 +162,10 @@ function appendPaymentDiv(tx) {
 
     var rawAmount = parseFloat(tx.amount);
     var nanoAmount = rawAmount / 1000000000000000000000000000000.0;
-    nanoAmount = Math.round((nanoAmount + Number.EPSILON) * 1000.0) / 1000.0
+    nanoAmount = Math.round((nanoAmount + Number.EPSILON) * 1000000.0) / 1000000.0
     var fiatAmount = nanoAmount * nanoToUsd * usdToFiat;
     fiatAmount = Math.round((fiatAmount + Number.EPSILON) * 100.0) / 100.0
+    if (fiatCurrency == "NANO") fiatAmount = nanoAmount
 
     var parent = $("#main_center").get(0)
     var paymentDiv = document.createElement("DIV");
@@ -170,7 +177,10 @@ function appendPaymentDiv(tx) {
     var innerLeft = "Received <span class='highlight'>" + timeString + "</span><br>"
     innerLeft += "From <span class='highlight'>" + fromAccountPrefix + "...</span>"
     leftDiv.innerHTML = innerLeft;
-    var innerRight = nanoAmount + " NANO<br><span class='highlight'>~ " + fiatAmount + " " + fiatCurrency + "</span>"
+    var nanoPart = nanoAmount + " NANO"
+    if (fiatCurrency == "NANO") nanoPart = ""
+    var innerRight = nanoPart + "<br><span class='highlight'>~ " + fiatAmount + " " + fiatCurrency + "</span>"
+    if (fiatCurrency == "NANO") innerRight = innerRight.replace("~ ", "")
     rightDiv.innerHTML = innerRight;
     paymentDiv.appendChild(leftDiv);
     paymentDiv.appendChild(rightDiv);
@@ -258,8 +268,12 @@ function awaitPayment() {
         correctLevel : QRCode.CorrectLevel.L
     });
 
-    $("#nano_amount_info").get(0).innerHTML = nanoRequestAmount.toString() + " NANO"
-    $("#fiat_amount_info").get(0).innerHTML = "~ " + requestAmount.toString() + " " + fiatCurrency;
+    var nanoPart = nanoRequestAmount.toString() + " NANO";
+    if (fiatCurrency == "NANO") nanoPart = "";
+    $("#nano_amount_info").get(0).innerHTML = nanoPart;
+    fiatAmountInfo = "~ " + requestAmount.toString() + " " + fiatCurrency;
+    if (fiatCurrency == "NANO") fiatAmountInfo = fiatAmountInfo.replace("~ ", "")
+    $("#fiat_amount_info").get(0).innerHTML = fiatAmountInfo;
     openNanoWebSocket(nanoRequestAmount, requestAmount)
 }
 
@@ -331,8 +345,10 @@ function openNanoWebSocket(nanoRequestAmount, requestAmount) {
 }
 
 function success(fromAddress, nanoRequestAmount) {
-    $("#success_nano").get(0).innerHTML = 
-        nanoRequestAmount + " NANO<br>~ " + requestAmount + " " + fiatCurrency;
+    var nanoPart = nanoRequestAmount + " NANO<br>~ "
+    if (fiatCurrency == "NANO") nanoPart = "";
+
+    $("#success_nano").get(0).innerHTML = nanoPart + requestAmount + " " + fiatCurrency;
     split = fromAddress.match(new RegExp('.{1,' + 24 + '}', 'g'));
     $("#success_address").get(0).innerHTML = split[0] + "<br>" + split[1] + "<br>" + split[2]
     $("#await_payment").hide()

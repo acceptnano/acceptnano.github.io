@@ -57,7 +57,7 @@
             <div class="bottom_up_fade"></div>
             <div class="background" style="padding-top: 0.5rem;">
                 <input id="amount_currency" class="currency" readonly placeholder="NANO" onclick="changeCurrency(this);">
-                <input class="amount" type="number" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount" oninput="amountChanged();">
+                <input class="amount" type="number" inputmode="decimal" pattern="\d*" maxlength="15" id="amount" autocomplete="off" placeholder="Enter Amount" oninput="amountChanged();">
                 <br>
                 <button class="button" id="request_payment" onclick="requestPayment()" disabled>Request Payment</button>
             </div>

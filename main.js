@@ -138,6 +138,7 @@ function showPaymentHistory() {
     if (usdToFiat == -1.0 || nanoToUsd == -1.0) return;
     paymentHistoryShown = true;
 
+    amountChanged();
     txs = paymentHistory.history
     for (i = 0; i < txs.length; i++) {
         tx = txs[i]
@@ -290,7 +291,8 @@ function amountChanged() {
     amount = $("#amount").get(0).value
     amountFloat = parseFloat(amount)
     invalidAmount = (amount == "" || amountFloat == 0.0)
-    $("#request_payment").get(0).disabled = invalidAmount
+    currenciesReady = usdToFiat > 0 && nanoToUsd > 0
+    $("#request_payment").get(0).disabled = invalidAmount && !currenciesReady
     if (!invalidAmount) {
         requestAmount = amountFloat;
     }

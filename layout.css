@@ -80,6 +80,22 @@ body {
     transform: translateX(-50%);
 }
 
+.center_top2 {
+    padding-top: 7rem;
+    padding-bottom: 8rem;
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    max-width: 26rem;
+    -moz-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+h3 {
+    margin: 0;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

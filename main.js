@@ -26,17 +26,18 @@ var paymentHistory = null;
 var paymentHistoryShown = false;
 
 function main() {
-    $("#deposit_address_view").hide()
     var urlParams = new URLSearchParams(window.location.search);
     var address = urlParams.get('address');
+    var hasAddress = urlParams.has('address');
     var isValid = pattern.test(address)
     var isEdit = urlParams.has('edit')
     var isSetCurrency = urlParams.has('set_currency')
+    var hasCurreny = urlParams.has('currency')
     var currency = urlParams.get('currency')
     var isValidCurrency = currencySymbols.includes(currency);
     if (isValidCurrency) {
         fiatCurrency = currency;
-    } else {
+    } else if (hasCurreny) {
         isSetCurrency = true;
     }
 
@@ -44,14 +45,13 @@ function main() {
         depositAddress = address
     }
 
-    $("#deposit_address_view").hide()   
-        $("#deposit_address_view").hide()   
-    $("#deposit_address_view").hide()   
+    $("#deposit_address_view").hide()
     $("#main_view").hide()   
     $("#await_payment").hide()
     $("#payment_received").hide()
     $("#change_currency").hide()
     $("#currency_bottom").hide()
+    $("#welcome_view").hide()
 
     if (isSetCurrency) {  
         $("#change_currency").show()
@@ -59,12 +59,14 @@ function main() {
     } else if (isValid && !isEdit) { 
         $("#main_view").show()
         initMainView()
-    } else {
+    } else if (hasAddress) {
         $("#deposit_address_view").show()
         if (isEdit && isValid) {
             $("#address_textarea").get(0).value = address
         }
         addressChanged()
+    } else {
+        $("#welcome_view").show()
     }
 }
 
@@ -221,6 +223,10 @@ function currencyOnClick(parentDiv, entryDiv) {
 function addressContinue() {
     address = $("#address_textarea").val()
     window.location.href = "?currency=" + fiatCurrency + "&address=" + address
+}
+
+function welcomeContinue() {
+    window.location.href = "?set_currency&currency=USD&address="
 }
 
 function pasteAddress() {

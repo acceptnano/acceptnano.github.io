@@ -30,7 +30,46 @@
 </head>
 
 <body onload="main();">
-    <div id="deposit_address_view">
+    <div id="welcome_view" style="display: none;">
+        <div class="top">
+            <div class="background" style="padding-bottom: 0.5rem;">
+                <h1>Accept Nano</h1>
+            </div>
+            <div class="top_down_fade"></div>
+        </div>
+        <div class="center_top2">
+            <div class="welcome_info">
+                <div class="highlight">What is this app?</div>
+                This is a Point-of-Sale web-app that allows you and your employees to accept
+                <span class="highlight">nano (ӾNO)</span> as payment in your store.
+                <br><br><div class="highlight">How does it work?</div>
+                When a customer wants to pay with <span class="highlight">nano</span>, the app allows you to:
+                <ol>
+                    <li>Convert the price to <span class="highlight">nano</span>.</li>
+                    <li>Request the payment with a QR code.</li>
+                    <li class="highlight2"><span>Confirm the payment</span>.</li>
+                </ol>
+                All payments are transferred directly, and without fees,
+                from the customer wallet to the <span class="highlight">deposit address</span> chosen by you.
+                <br><br><div class="highlight">How do I get started?</div>
+                To get started you need to specify:
+                <ol>
+                    <li>The <span class="highlight">currency</span> with which your items are priced.</li>
+                    <li>The <span class="highlight">deposit address</span> to which payments should be forwarded.</li>
+                </ol>
+                After that you are met with a page, which can be shared among your employees,
+                from which payments can be requested and <span class="highlight2">confirmed</span>.
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="fade"></div>
+            <div class="background">
+                <br>
+                <button class="button" id="welcome_continue" onclick="welcomeContinue()">Continue</button>
+            </div>
+        </div>
+    </div>
+    <div id="deposit_address_view" style="display: none;">
         <div class="top">
             <h1>Deposit Address</h1>
         </div>
@@ -42,7 +81,7 @@
                 <p class="address_help">Payments are forwarded to<br>the address entered here</p>
                 <textarea class="address" 
                 id="address_textarea" 
-                placeholder="Enter Address"
+                placeholder="Enter your address&#10;nano_abc123"
                 maxlength="65"
                 oninput="addressChanged();"></textarea>
                 <br>
@@ -52,7 +91,7 @@
             </div>
         </div>
     </div>
-    <div id="main_view">
+    <div id="main_view" style="display: none;">
         <div class="top">
             <div class="background" style="padding-bottom: 0.5rem;">
                 <h1>Accept Nano</h1>
@@ -75,7 +114,7 @@
             </div>
         </div>
     </div>
-    <div id="await_payment">
+    <div id="await_payment" style="display: none;">
         <div class="top">
             <h1>Accept Nano</h1>
         </div>
@@ -95,7 +134,7 @@
             <button class="button" onclick="reload();">Back</button>
         </div>
     </div>
-    <div id="payment_received">
+    <div id="payment_received" style="display: none;">
         <div class="top">
             <h1 class="success_title">Success</h1>
         </div>
@@ -117,7 +156,7 @@
             <button class="button success_back" onclick="reload();">Back</button>
         </div>
     </div>
-    <div id="change_currency">
+    <div id="change_currency" style="display: none;">
         <div class="top">
             <div class="background">
                 <h1>Choose Currency</h1>

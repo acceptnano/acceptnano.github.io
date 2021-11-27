@@ -23,6 +23,7 @@ var selectedCurrency = ""
 var usdToFiat = -1.0
 var nanoToUsd = -1.0
 var paymentHistory = null;
+var pendingHistory = null;
 var paymentHistoryShown = false;
 
 function main() {
@@ -122,6 +123,20 @@ function updateCurrencyRates() {
 function fetchPaymentHistory() {
     $.ajax({
         type: 'get',
+        url: "https://proxy.nanos.cc/proxy/?action=pending&count=5&threshold=1&source=true&account=" + depositAddress,
+        traditional: true,
+        success: function(data){
+            console.log(data);
+            pendingHistory = data;
+            showPaymentHistory();
+        },
+        error: function(){
+            console.error("Failed to fetch pending history");
+        },
+    });
+
+    $.ajax({
+        type: 'get',
         url: "https://proxy.nanos.cc/proxy/?action=account_history&count=20&account=" + depositAddress,
         traditional: true,
         success: function(data){
@@ -136,34 +151,53 @@ function fetchPaymentHistory() {
 }
 
 function showPaymentHistory() {
-    if (paymentHistory == null || paymentHistoryShown) return;
+    if (paymentHistory == null || pendingHistory == null || paymentHistoryShown) return;
     if (usdToFiat == -1.0 || nanoToUsd == -1.0) return;
     paymentHistoryShown = true;
 
     amountChanged();
+    blocks = pendingHistory.blocks
+    for (var key in blocks) {
+        block = blocks[key]
+        appendPendingDiv(block)
+    }
+
     txs = paymentHistory.history
     for (i = 0; i < txs.length; i++) {
         tx = txs[i]
         if (tx.type == "receive") {
-            appendPaymentDiv(tx);
+            appendPaymentHistoryDiv(tx);
         }
     }
 }
 
-function appendPaymentDiv(tx) {
-    var fromAccount = tx.account;
-    var fromAccountPrefix = fromAccount.substring(0,11)
-    ts = new Date(parseInt(tx.local_timestamp) * 1000);
-    var secondsAgo = (new Date().getTime() - ts.getTime()) / 1000.0;
-    var minutesAgo = secondsAgo / 60.0;
-    var hoursAgo = minutesAgo / 60.0;
-    var daysAgo = hoursAgo / 24.0;
-    var timeString = Math.round(secondsAgo) + "s ago";
-    if (minutesAgo >= 1) timeString = Math.round(minutesAgo) + "m ago";
-    if (hoursAgo >= 1) timeString = Math.round(hoursAgo) + "h ago";
-    if (daysAgo >= 1) timeString = ts.toISOString().split('T')[0];
+function appendPendingDiv(block) {
+    var amount = block.amount
+    var source = block.source
+    appendPaymentDiv(amount, source, null)
+}
 
-    var rawAmount = parseFloat(tx.amount);
+function appendPaymentHistoryDiv(tx) {
+    appendPaymentDiv(tx.amount, tx.account, tx.local_timestamp)
+}
+
+function appendPaymentDiv(amount, source, timestamp) {
+    var fromAccountPrefix = source.substring(0,11)
+
+    var timeString = ""
+    if (timestamp != null) {
+        ts = new Date(parseInt(timestamp) * 1000);
+        var secondsAgo = (new Date().getTime() - ts.getTime()) / 1000.0;
+        var minutesAgo = secondsAgo / 60.0;
+        var hoursAgo = minutesAgo / 60.0;
+        var daysAgo = hoursAgo / 24.0;
+        timeString = Math.round(secondsAgo) + "s ago";
+        if (minutesAgo >= 1) timeString = Math.round(minutesAgo) + "m ago";
+        if (hoursAgo >= 1) timeString = Math.round(hoursAgo) + "h ago";
+        if (daysAgo >= 1) timeString = ts.toISOString().split('T')[0];
+    }
+
+    var rawAmount = parseFloat(amount);
     var nanoAmount = rawAmount / 1000000000000000000000000000000.0;
     nanoAmount = Math.round((nanoAmount + Number.EPSILON) * 1000000.0) / 1000000.0
     var fiatAmount = nanoAmount * nanoToUsd * usdToFiat;
@@ -178,6 +212,9 @@ function appendPaymentDiv(tx) {
     var rightDiv = document.createElement("DIV");
     rightDiv.classList.add("right");
     var innerLeft = "Received <span class='highlight'>" + timeString + "</span><br>"
+    if (timeString == "") {
+        innerLeft = "Sent <br>"
+    }
     innerLeft += "From <span class='highlight'>" + fromAccountPrefix + "...</span>"
     leftDiv.innerHTML = innerLeft;
     var nanoPart = nanoAmount + " NANO"

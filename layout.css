@@ -81,8 +81,8 @@ body {
 }
 
 .center_top2 {
-    padding-top: 7rem;
-    padding-bottom: 8rem;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
     position: absolute;
     left: 50%;
     width: 100%;

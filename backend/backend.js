@@ -14,18 +14,25 @@ function errorResponse(res) {
     res.end('{}\n');
 }
 
-function currencyRatesResponse(res, resObj) {
+function currencyRatesResponse(res, resObj, refreshOnly) {
     res.statusCode = 200;
+    if (refreshOnly) {
+        res.end('{}\n');
+        return;
+    }
+
     let jsonString = JSON.stringify(resObj);
     res.end(jsonString);
 }
 
-function getCurrencyRates(_, inRes) {
+function getCurrencyRates(inReq, inRes) {
 
+    let parsedUrl = url.parse(inReq.url, true)
+    const refreshOnly = 'refresh' in parsedUrl.query
     const now = new Date();
     const hoursSince = Math.abs(exchangeRatesLastRefresh - now) / (60*60*1000);
-    if (hoursSince < 1) {
-        currencyRatesResponse(inRes, exchangeRates)
+    if (!refreshOnly && hoursSince < 1) {
+        currencyRatesResponse(inRes, exchangeRates, refreshOnly)
         return;
     }
 
@@ -47,7 +54,7 @@ function getCurrencyRates(_, inRes) {
                     inRes.statusCode = 200;
                     exchangeRates = JSON.parse(json);
                     exchangeRatesLastRefresh = new Date();
-                    currencyRatesResponse(inRes, exchangeRates);
+                    currencyRatesResponse(inRes, exchangeRates, refreshOnly);
                 } catch (e) {
                     console.log('Error parsing JSON!' + e);
                     errorResponse(inRes);
@@ -65,7 +72,8 @@ function getCurrencyRates(_, inRes) {
 }
 
 const server = http.createServer((req, res) => {
-    let path = url.parse(req.url).pathname;
+    let parsedUrl = url.parse(req.url)
+    let path = parsedUrl.pathname;
     res.setHeader('Content-Type', 'application/json');
 
     if (path === "/currency/rates" && req.method === "GET") {

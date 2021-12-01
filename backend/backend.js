@@ -123,6 +123,7 @@ const server = http.createServer((req, res) => {
     let parsedUrl = url.parse(req.url)
     let path = parsedUrl.pathname;
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*')
 
     if (path === "/currency/rates" && req.method === "GET") {
         getCurrencyRates(req, res);

@@ -90,7 +90,7 @@ function updateCurrencyRates() {
 
     $.ajax({
         type: 'get',
-        url: 'http://45.9.190.53:3000/currency/nano',
+        url: 'https://api.coingecko.com/api/v3/simple/price?ids=NANO&vs_currencies=USD',
         traditional: true,
         success: function(data){
             nanoToUsd = data.nano.usd
@@ -104,7 +104,7 @@ function updateCurrencyRates() {
 
     $.ajax({
         type: 'get',
-        url: 'http://45.9.190.53:3000/currency/rates',
+        url: 'https://api.exchangerate.host/latest?base=USD&symbols=' + fiatCurrency,
         traditional: true,
         success: function(data){
             if (!data.success) {
